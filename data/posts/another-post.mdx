@@ -20,11 +20,10 @@ Next.js has two forms of pre-rendering: **Static Generation** and **Server-side 
 
 Importantly, Next.js lets you **choose** which pre-rendering form to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
 
-```html::pages/_app.html
+```html {3-5} title="cool-code.html"
 <!-- Header.svelte -->
 <header>
   <a href="/">Home</a>
-
   <nav>
     <ul>
       <li>
@@ -40,3 +39,5 @@ Importantly, Next.js lets you **choose** which pre-rendering form to use for eac
   </nav>
 </header>
 ```
+
+<CanvasTest />

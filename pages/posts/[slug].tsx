@@ -31,7 +31,7 @@ export default function SinglePostPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const MDXContent = useMDXComponent(post.body.code);
   return (
-    <div>
+    <div className="max-w-[800px] mx-auto">
       <h1>{post.title}</h1>
       <MDXContent components={MDXComponents} />
     </div>
