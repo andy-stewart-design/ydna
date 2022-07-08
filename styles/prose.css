@@ -1,0 +1,29 @@
+/* https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js */
+
+.prose {
+  @apply max-w-[680px] mx-auto lg:max-w-[720px];
+}
+
+.prose :where(h1):not(:where([class~="not-prose"] *)) {
+  @apply text-5xl font-bold my-6;
+}
+
+.prose :where(h2):not(:where([class~="not-prose"] *)) {
+  @apply text-3xl font-bold my-6 lg:text-4xl;
+}
+
+.prose :where(strong):not(:where([class~="not-prose"] *)) {
+  @apply text-gray-800 leading-relaxed my-6;
+}
+
+.prose :where(p):not(:where([class~="not-prose"] *)) {
+  @apply leading-relaxed my-6 lg:text-lg lg:leading-[1.75rem];
+}
+
+.prose :where(ul):not(:where([class~="not-prose"] *)) {
+  @apply list-disc pl-4 my-6;
+}
+
+.prose :where(li):not(:where([class~="not-prose"] *)) {
+  @apply leading-relaxed pl-1 mb-3 lg:text-lg lg:leading-[1.75rem];
+}
