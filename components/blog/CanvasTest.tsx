@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { canUseDOM } from "lib/canUseDom";
+import { useHydrated } from "lib/useHydrated";
 
 export default function CanvasTest() {
   const container = useRef<HTMLDivElement>(null);
@@ -40,18 +41,17 @@ export default function CanvasTest() {
   };
 
   // Increment time variable
-  canUseDOM() &&
-    useLayoutEffect(() => {
-      let timerId: number;
-      if (isAnimating) {
-        const animate = () => {
-          setTime((t) => t + inc);
-          timerId = requestAnimationFrame(animate);
-        };
+  useLayoutEffect(() => {
+    let timerId: number;
+    if (isAnimating) {
+      const animate = () => {
+        setTime((t) => t + inc);
         timerId = requestAnimationFrame(animate);
-      }
-      return () => cancelAnimationFrame(timerId);
-    }, [isAnimating, inc]);
+      };
+      timerId = requestAnimationFrame(animate);
+    }
+    return () => cancelAnimationFrame(timerId);
+  }, [isAnimating, inc]);
 
   // Run animation based on time
   useEffect(() => {
@@ -71,6 +71,8 @@ export default function CanvasTest() {
     observer.observe(container.current!);
     return () => observer.disconnect();
   }, []);
+
+  if (!useHydrated()) return null;
 
   return (
     <div className="my-8 lg:-mx-12">
