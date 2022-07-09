@@ -5,7 +5,10 @@ export default function Counter() {
   const handleClick = () => setIndex(index + 1);
 
   return (
-    <button className="bg-black w-24 p-2 text-white" onClick={handleClick}>
+    <button
+      className="bg-black text-white dark:bg-gray-100 dark:text-gray-900 w-24 p-2"
+      onClick={handleClick}
+    >
       {index}
     </button>
   );

@@ -76,28 +76,28 @@ export default function CanvasTest() {
     <div className="my-8 lg:-mx-12">
       <div className="flex justify-between items-center gap-x-4 mb-4">
         <button
-          className="bg-gray-200 py-2 px-4 rounded min-w-[80px]"
+          className="bg-gray-200 dark:bg-gray-800 py-2 px-4 rounded min-w-[80px]"
           onClick={handlePlayback}
         >
           {isAnimating ? "pause" : "play"}
         </button>
         <div className="flex items-center gap-x-4">
           <button
-            className="bg-gray-200 py-2 px-4 rounded"
+            className="bg-gray-200 dark:bg-gray-800 py-2 px-4 rounded"
             onClick={() => setInc((i) => Math.max(0.01, i - 0.01))}
           >
             -
           </button>
           <p className="m-0">{Math.round(inc * 100)}</p>
           <button
-            className="bg-gray-200 py-2 px-4 rounded"
+            className="bg-gray-200 dark:bg-gray-800 py-2 px-4 rounded"
             onClick={() => setInc((i) => Math.min(0.1, i + 0.01))}
           >
             +
           </button>
         </div>
         <button
-          className="bg-gray-200 py-2 px-4 rounded min-w-[80px]"
+          className="bg-gray-200 dark:bg-gray-800 py-2 px-4 rounded min-w-[80px]"
           onClick={handleReset}
         >
           reset

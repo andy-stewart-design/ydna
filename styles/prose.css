@@ -12,12 +12,8 @@
   @apply text-3xl font-bold my-6 lg:text-4xl;
 }
 
-.prose :where(strong):not(:where([class~="not-prose"] *)) {
-  @apply text-gray-800 leading-relaxed my-6;
-}
-
 .prose :where(p):not(:where([class~="not-prose"] *)) {
-  @apply leading-relaxed my-6 lg:text-lg lg:leading-[1.75rem];
+  @apply text-gray-800/80 dark:text-gray-100/80 leading-relaxed my-6 lg:text-lg lg:leading-[1.75rem];
 }
 
 .prose :where(ul):not(:where([class~="not-prose"] *)) {
@@ -25,5 +21,9 @@
 }
 
 .prose :where(li):not(:where([class~="not-prose"] *)) {
-  @apply leading-relaxed pl-1 mb-3 lg:text-lg lg:leading-[1.75rem];
+  @apply text-gray-800/80 dark:text-gray-100/80 leading-relaxed pl-1 mb-3 lg:text-lg lg:leading-[1.75rem];
+}
+
+.prose :where(strong):not(:where([class~="not-prose"] *)) {
+  @apply text-gray-800 dark:text-gray-100 leading-relaxed my-6;
 }
