@@ -20,8 +20,8 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="grid place-items-center h-screen">
-        <div className="max-w-[640px]">
+      <main className="pt-24">
+        <div className="max-w-[720px] mx-auto">
           <h1 className="font-bold text-5xl mb-6">All Posts</h1>
           {posts.map((post) => (
             <BlogCard key={post.slug} post={post} />

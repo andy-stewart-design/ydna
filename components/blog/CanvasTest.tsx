@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { canUseDOM } from "lib/canUseDom";
 import { useHydrated } from "lib/useHydrated";
+import useAnimationFrame from "lib/useAnimationFrame";
 
 export default function CanvasTest() {
   const container = useRef<HTMLDivElement>(null);
@@ -14,6 +14,8 @@ export default function CanvasTest() {
   const handleReset = () => setTime((t) => t * 0);
   const handlePlayback = () => setIsAnimating(!isAnimating);
 
+  let isHydrated = useHydrated();
+
   const setup = (canvas: HTMLCanvasElement) => {
     const { offsetWidth } = container.current!;
     const aspectRatio = 9 / 16;
@@ -25,7 +27,7 @@ export default function CanvasTest() {
     if (ctx) {
       const { width, height } = ctx.canvas;
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "#222";
       ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = "blue";
       ctx.beginPath();
@@ -40,18 +42,21 @@ export default function CanvasTest() {
     }
   };
 
+  if (!isHydrated) return null;
+
   // Increment time variable
-  useLayoutEffect(() => {
-    let timerId: number;
-    if (isAnimating) {
-      const animate = () => {
-        setTime((t) => t + inc);
-        timerId = requestAnimationFrame(animate);
-      };
-      timerId = requestAnimationFrame(animate);
-    }
-    return () => cancelAnimationFrame(timerId);
-  }, [isAnimating, inc]);
+  // useLayoutEffect(() => {
+  //   let timerId: number;
+  //   if (isAnimating) {
+  //     const animate = () => {
+  //       setTime((t) => t + inc);
+  //       timerId = requestAnimationFrame(animate);
+  //     };
+  //     timerId = requestAnimationFrame(animate);
+  //   }
+  //   return () => cancelAnimationFrame(timerId);
+  // }, [isAnimating, inc]);
+  useAnimationFrame(() => setTime((t) => t + inc), isAnimating, { inc });
 
   // Run animation based on time
   useEffect(() => {
@@ -68,11 +73,9 @@ export default function CanvasTest() {
     let observer = new ResizeObserver((entries) => {
       setCanvasWidth(entries[0].contentRect.width);
     });
-    observer.observe(container.current!);
+    if (container.current) observer.observe(container.current);
     return () => observer.disconnect();
-  }, []);
-
-  if (!useHydrated()) return null;
+  }, [isHydrated]);
 
   return (
     <div className="my-8 lg:-mx-12">

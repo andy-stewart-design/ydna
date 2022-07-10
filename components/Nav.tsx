@@ -9,13 +9,13 @@ export default function Nav() {
       <div className="flex justify-between items-center w-full max-w-[720px] mx-auto py-4">
         <div className="flex gap-x-4">
           <Link href="/">
-            <a className="font-medium">Andy Stewart</a>
+            <a className="font-bold">Andy Stewart</a>
           </Link>
           <Link href="/posts">
-            <a className="font-medium">Posts</a>
+            <a className="">Posts</a>
           </Link>
           <Link href="/">
-            <a className="font-medium">About</a>
+            <a className="">About</a>
           </Link>
         </div>
         <ThemeSwitch />
