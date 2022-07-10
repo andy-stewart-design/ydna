@@ -42,8 +42,6 @@ export default function CanvasTest() {
     }
   };
 
-  if (!isHydrated) return null;
-
   // Increment time variable
   // useLayoutEffect(() => {
   //   let timerId: number;
@@ -76,6 +74,8 @@ export default function CanvasTest() {
     if (container.current) observer.observe(container.current);
     return () => observer.disconnect();
   }, [isHydrated]);
+
+  if (!isHydrated) return null;
 
   return (
     <div className="my-8 lg:-mx-12">
