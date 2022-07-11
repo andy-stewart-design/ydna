@@ -1,34 +1,26 @@
-import { useLayoutEffect } from "react";
+import { MutableRefObject, useLayoutEffect, useRef } from "react";
 
 const useAnimationFrame = (
   callback: () => void,
   shouldAnimate: boolean = true,
   props = {}
 ) => {
+  const frame: MutableRefObject<number> = useRef(0);
+
+  const anim = () => {
+    callback();
+    frame.current = requestAnimationFrame(anim);
+  };
+
   useLayoutEffect(() => {
-    let timerId: number;
     if (shouldAnimate) {
-      const animate = () => {
-        callback();
-        timerId = requestAnimationFrame(animate);
-      };
-      timerId = requestAnimationFrame(animate);
+      frame.current = requestAnimationFrame(anim);
     }
 
-    return () => cancelAnimationFrame(timerId);
-  }, [callback, shouldAnimate, props]);
+    return () => {
+      frame.current && cancelAnimationFrame(frame.current);
+    };
+  }, [shouldAnimate, { ...props }]);
 };
 
 export default useAnimationFrame;
-
-// useLayoutEffect(() => {
-//     let timerId: number;
-//     if (isAnimating) {
-//       const animate = () => {
-//         setTime((t) => t + inc);
-//         timerId = requestAnimationFrame(animate);
-//       };
-//       timerId = requestAnimationFrame(animate);
-//     }
-//     return () => cancelAnimationFrame(timerId);
-//   }, [isAnimating, inc]);

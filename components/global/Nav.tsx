@@ -11,8 +11,14 @@ export default function Nav() {
           <Link href="/">
             <a className="font-bold">Andy Stewart</a>
           </Link>
+          <Link href="/">
+            <a className="">Projects</a>
+          </Link>
           <Link href="/posts">
             <a className="">Posts</a>
+          </Link>
+          <Link href="/snippets">
+            <a className="">Snippets</a>
           </Link>
           <Link href="/">
             <a className="">About</a>

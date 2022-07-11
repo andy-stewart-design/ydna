@@ -1,0 +1,22 @@
+---
+title: "Resize Observer Hook"
+summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+framework: "React"
+---
+
+A simple react hook for initiating an observer to detect when an element is resized.
+
+```ts title="useResizeObserver.ts"
+export default function Counter() {
+  const [index, setIndex] = useState(0);
+  const handleClick = () => setIndex(index + 1);
+
+  return (
+    <div className="mb-6">
+      <button className="bg-black w-24 p-2 text-white" onClick={handleClick}>
+        {index}
+      </button>
+    </div>
+  );
+}
+```

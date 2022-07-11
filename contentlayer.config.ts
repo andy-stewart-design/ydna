@@ -30,8 +30,28 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
+export const Snippet = defineDocumentType(() => ({
+  name: "Snippet",
+  contentType: "mdx",
+  filePathPattern: "snippets/*.mdx",
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (post) =>
+        post._raw.sourceFileName
+          // hello-world.mdx => hello-world
+          .replace(/\.mdx$/, ""),
+    },
+  },
+  fields: {
+    title: { type: "string", required: true },
+    summary: { type: "string", required: true },
+    framework: { type: "enum", options: ["React", "Svelte"], required: true },
+  },
+}));
+
 const rehypePrettyCodeOptions: Partial<Options> = {
-  theme: "one-dark-pro",
+  theme: "dracula",
   tokensMap: {
     // VScode command palette: Inspect Editor Tokens and Scopes
     // https://github.com/Binaryify/OneDark-Pro/blob/47c66a2f2d3e5c85490e1aaad96f5fab3293b091/themes/OneDark-Pro.json
@@ -55,7 +75,7 @@ const rehypePrettyCodeOptions: Partial<Options> = {
 
 export default makeSource({
   contentDirPath: "data",
-  documentTypes: [Post],
+  documentTypes: [Post, Snippet],
   mdx: {
     esbuildOptions(options) {
       options.target = "esnext";

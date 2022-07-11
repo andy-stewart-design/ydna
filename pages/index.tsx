@@ -1,15 +1,15 @@
 import { type GetStaticProps, type InferGetStaticPropsType } from "next";
 import Head from "next/head";
+import { allSnippets, type Snippet } from "contentlayer/generated";
 import Link from "next/link";
-import { allPosts, type Post } from "contentlayer/generated";
 
 export const getStaticProps: GetStaticProps<{
-  posts: Post[];
+  snippets: Snippet[];
 }> = () => {
-  return { props: { posts: allPosts } };
+  return { props: { snippets: allSnippets } };
 };
 
-const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home = ({ snippets }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <Head>
@@ -21,6 +21,16 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
       <main className="grid place-items-center h-screen">
         <div>
           <h1 className="text-5xl">Andy Stewart Design</h1>
+          <div>
+            {snippets.map((snippet) => (
+              <Link href={`/snippets/${snippet.slug}`} key={snippet.slug}>
+                <a>
+                  <p>{snippet.title}</p>
+                  <p>{snippet.framework}</p>
+                </a>
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
     </div>

@@ -1,8 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useHydrated } from "lib/useHydrated";
+import { useEffect, useRef, useState } from "react";
 import useAnimationFrame from "lib/useAnimationFrame";
+import { ClientOnly } from "components/global/ClientOnly";
+import useResizeObserver, { ContentRect } from "lib/useResizeObserver";
 
-export default function CanvasTest() {
+function CustomCanvas() {
   const container = useRef<HTMLDivElement>(null);
   const canvasRef = useRef(null);
 
@@ -10,11 +11,9 @@ export default function CanvasTest() {
   const [time, setTime] = useState<number>(0);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [inc, setInc] = useState<number>(0.05);
-  const [canvasWidth, setCanvasWidth] = useState<number>(0);
-  const handleReset = () => setTime((t) => t * 0);
+  const progressTime = () => setTime((t) => t + inc);
+  const resetTime = () => setTime((t) => t * 0);
   const handlePlayback = () => setIsAnimating(!isAnimating);
-
-  let isHydrated = useHydrated();
 
   const setup = (canvas: HTMLCanvasElement) => {
     const { offsetWidth } = container.current!;
@@ -43,18 +42,10 @@ export default function CanvasTest() {
   };
 
   // Increment time variable
-  // useLayoutEffect(() => {
-  //   let timerId: number;
-  //   if (isAnimating) {
-  //     const animate = () => {
-  //       setTime((t) => t + inc);
-  //       timerId = requestAnimationFrame(animate);
-  //     };
-  //     timerId = requestAnimationFrame(animate);
-  //   }
-  //   return () => cancelAnimationFrame(timerId);
-  // }, [isAnimating, inc]);
-  useAnimationFrame(() => setTime((t) => t + inc), isAnimating, { inc });
+  useAnimationFrame(progressTime, isAnimating, { inc });
+
+  // initialize resize observer for canvas container
+  let size: ContentRect = useResizeObserver(container);
 
   // Run animation based on time
   useEffect(() => {
@@ -64,18 +55,7 @@ export default function CanvasTest() {
       setup(canvas);
       draw(ctx, time);
     }
-  }, [time, canvasWidth]);
-
-  // initialize resize observer for canvas container
-  useEffect(() => {
-    let observer = new ResizeObserver((entries) => {
-      setCanvasWidth(entries[0].contentRect.width);
-    });
-    if (container.current) observer.observe(container.current);
-    return () => observer.disconnect();
-  }, [isHydrated]);
-
-  if (!isHydrated) return null;
+  }, [time, size]);
 
   return (
     <div className="my-8 lg:-mx-12">
@@ -103,7 +83,7 @@ export default function CanvasTest() {
         </div>
         <button
           className="bg-gray-200 dark:bg-gray-800 py-2 px-4 rounded min-w-[80px]"
-          onClick={handleReset}
+          onClick={resetTime}
         >
           reset
         </button>
@@ -113,8 +93,14 @@ export default function CanvasTest() {
       </div>
       <div className="flex items-center justify-between gap-x-4 mt-4">
         <p className="text-sm m-0">Frame Count: {Math.round(time)}</p>
-        <p className="text-sm m-0">Canvas Width: {canvasWidth}</p>
+        <p className="text-sm m-0">Canvas Width: {size.width}</p>
       </div>
     </div>
   );
 }
+
+function CanvasTest() {
+  return <ClientOnly>{() => <CustomCanvas />}</ClientOnly>;
+}
+
+export default CanvasTest;

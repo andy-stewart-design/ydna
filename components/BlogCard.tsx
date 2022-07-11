@@ -12,7 +12,7 @@ const BlogCard = ({ post }: { post: Post }) => {
         <div className="flex gap-x-2 mt-2">
           {post.tags?.map((tag) => (
             <span
-              className="font-medium text-sm px-3 py-0.5 bg-blue-500/20 rounded-full"
+              className="font-medium text-sm px-3 py-0.5 bg-white/10 rounded-full"
               key={tag}
             >
               {tag}

@@ -1,4 +1,4 @@
-import { allPosts, type Post } from "contentlayer/generated";
+import { allSnippets, type Snippet } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import {
   type GetStaticPaths,
@@ -10,32 +10,35 @@ import MDXComponents from "components/blog/MDXComponents";
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
-    paths: allPosts.map((post) => ({
+    paths: allSnippets.map((snippet) => ({
       params: {
-        slug: post.slug,
+        slug: snippet.slug,
       },
     })),
     fallback: false,
   };
 };
-export const getStaticProps: GetStaticProps<{ post: Post }> = ({ params }) => {
-  const post = allPosts.find((post) => post.slug === params?.slug);
 
-  if (!post) {
+export const getStaticProps: GetStaticProps<{ snippet: Snippet }> = ({
+  params,
+}) => {
+  const snippet = allSnippets.find((snippet) => snippet.slug === params?.slug);
+
+  if (!snippet) {
     return { notFound: true };
   }
 
-  return { props: { post } };
+  return { props: { snippet } };
 };
 
 export default function SinglePostPage({
-  post,
+  snippet,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const MDXContent = useMDXComponent(post.body.code);
+  const MDXContent = useMDXComponent(snippet.body.code);
   return (
     <PostLayout>
       <div className="prose">
-        <h1>{post.title}</h1>
+        <h1>{snippet.title}</h1>
         <MDXContent components={MDXComponents} />
       </div>
     </PostLayout>

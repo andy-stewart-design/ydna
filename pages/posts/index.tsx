@@ -9,7 +9,9 @@ export const getStaticProps: GetStaticProps<{
   return { props: { posts: allPosts } };
 };
 
-const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const PostIndex = ({
+  posts,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div>
       <Head>
@@ -32,4 +34,4 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-export default Home;
+export default PostIndex;
