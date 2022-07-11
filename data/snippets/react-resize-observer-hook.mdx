@@ -4,19 +4,60 @@ summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo
 framework: "React"
 ---
 
-A simple react hook for initiating an observer to detect when an element is resized.
+A simple react hook for initiating an observer to detect when an element is resized and reading its current height and width.
 
 ```ts title="useResizeObserver.ts"
-export default function Counter() {
-  const [index, setIndex] = useState(0);
-  const handleClick = () => setIndex(index + 1);
+import { RefObject, useEffect, useRef, useState } from "react";
 
+export interface ContentRect {
+  width: number;
+  height: number;
+}
+
+export default function useResizeObserver(elRef: RefObject<HTMLDivElement>) {
+  const [contentRect, setContentRect] = useState<ContentRect>({
+    width: 0,
+    height: 0,
+  });
+  const observer = useRef<ResizeObserver | null>(null);
+
+  useEffect(() => {
+    if (elRef.current) {
+      observer.current = new ResizeObserver((entries) => {
+        const { width, height } = entries[0].contentRect;
+        setContentRect({ width, height });
+      });
+      observer.current.observe(elRef.current);
+    }
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, []);
+
+  return contentRect;
+}
+```
+
+## In Use
+
+This hooks requires a react `RefObject` and initiates a resize observer on the provided `HTMLEelement` when its component is mounted, and returns an updated width and height for that element whenever the observer is fired. The ResizeObserver API is widely supported (in 94.13% of browsers at the time of writing), so to keep the code lean I am not including a polyfill.
+
+I use this hook most often when working with HTML canvas, which allows me to dynamically and performantly resize the canvas whenever its container is resized.
+
+```tsx title="ObserveElement.tsx"
+import useResizeObserver from "lib/useResizeObserver";
+import { useRef } from "react";
+
+export default function ObserveElement() {
+  const container = useRef<HTMLDivElement>(null);
+  const { width, height } = useResizeObserver(container);
   return (
-    <div className="mb-6">
-      <button className="bg-black w-24 p-2 text-white" onClick={handleClick}>
-        {index}
-      </button>
+    <div ref={container}>
+      {width} x {height}
     </div>
   );
 }
 ```
+
+<ROTest />
