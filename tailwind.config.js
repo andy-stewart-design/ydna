@@ -20,6 +20,9 @@ module.exports = {
         black: "#111111",
         gray: colors.zinc,
       },
+      opacity: {
+        15: ".15",
+      },
     },
   },
   plugins: [],

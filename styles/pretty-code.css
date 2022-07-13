@@ -1,5 +1,4 @@
-/*
- * Code block e.g. 
+/* Code block e.g. 
  * ```js
  *   const a = 1;
  * ```
@@ -19,16 +18,12 @@ div[data-rehype-pretty-code-fragment] code {
   display: grid; /* make highlighted lines span the width of a horizontally-scrollable code block */
 }
 
-/*
-   * Code block titles
-   */
+/* Code block titles */
 div[data-rehype-pretty-code-title] {
   @apply mb-0.5 rounded-t-md px-3 py-2 font-mono text-xs text-white/70 border-b border-white/20 shadow-sm;
 }
 
-/*
-   * Lines
-   */
+/* Lines */
 div[data-rehype-pretty-code-fragment] .line {
   @apply border-l-4 border-l-transparent pl-2 pr-3;
 }
@@ -37,9 +32,7 @@ div[data-rehype-pretty-code-fragment] .line--highlighted {
   @apply border-l-blue-500 bg-blue-500/20;
 }
 
-/*
-   * Numbered lines
-   */
+/* Numbered lines */
 code[data-line-numbers] {
   counter-reset: line;
 }
@@ -57,24 +50,12 @@ code[data-line-numbers] .line--highlighted::before {
   @apply text-white/50;
 }
 
-/*
-   * Highlighted word & inline code block
-   */
+/* Highlighted word & inline code block */
 p > code,
 li > code,
 span[data-rehype-pretty-code-fragment],
 div[data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply rounded-full border border-rose-300/10 bg-white px-1.5 py-[1px] font-mono text-[13px];
-}
-
-/*
-   * inline code block e.g. 
-   * `const a = 1{:js}`
-   */
-p > code,
-li > code,
-span[data-rehype-pretty-code-fragment] {
-  @apply whitespace-nowrap text-blue-600;
+  @apply whitespace-nowrap font-mono text-[13px] lg:text-base text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-800 border border-black/10 dark:border-white/10 px-1.5 pt-px pb-0.5 rounded-sm;
 }
 
 /* Add line numbers */
@@ -83,7 +64,7 @@ code {
 }
 
 code > .line::before {
-  @apply inline-block w-4 mr-6 text-right text-white/40;
+  @apply inline-block text-gray-800/25 dark:text-gray-100/25 text-right w-4 mr-6;
   counter-increment: line;
   content: counter(line);
 }

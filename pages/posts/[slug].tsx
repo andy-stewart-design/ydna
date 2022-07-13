@@ -6,7 +6,7 @@ import {
   type InferGetStaticPropsType,
 } from "next";
 import PostLayout from "layouts/Posts";
-import MDXComponents from "components/blog/MDXComponents";
+import MDXComponents from "components/blog/shared/MDXComponents";
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {

@@ -4,7 +4,7 @@ summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo
 framework: "React"
 ---
 
-A simple react hook for initiating an observer to detect when an element is resized and reading its current height and width.
+A simple react hook for instantiating an observer to detect when an element is resized and reading its current height and width.
 
 ```ts title="useResizeObserver.ts"
 import { RefObject, useEffect, useRef, useState } from "react";
@@ -14,7 +14,10 @@ export interface ContentRect {
   height: number;
 }
 
-export default function useResizeObserver(elRef: RefObject<HTMLDivElement>) {
+export default function useResizeObserver(
+  target: RefObject<HTMLElement>,
+  callback?: Function | null
+) {
   const [contentRect, setContentRect] = useState<ContentRect>({
     width: 0,
     height: 0,
@@ -22,18 +25,18 @@ export default function useResizeObserver(elRef: RefObject<HTMLDivElement>) {
   const observer = useRef<ResizeObserver | null>(null);
 
   useEffect(() => {
-    if (elRef.current) {
+    if (target.current) {
       observer.current = new ResizeObserver((entries) => {
         const { width, height } = entries[0].contentRect;
         setContentRect({ width, height });
       });
-      observer.current.observe(elRef.current);
+      observer.current.observe(target.current);
     }
 
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, []);
+  }, [target]);
 
   return contentRect;
 }
@@ -42,6 +45,8 @@ export default function useResizeObserver(elRef: RefObject<HTMLDivElement>) {
 ## In Use
 
 This hooks requires a react `RefObject` and initiates a resize observer on the provided `HTMLEelement` when its component is mounted, and returns an updated width and height for that element whenever the observer is fired. The ResizeObserver API is widely supported (in 94.13% of browsers at the time of writing), so to keep the code lean I am not including a polyfill.
+
+Additionally, the hook also accepts an optional callback function that, if provided, fires anytime the ResizeObserver detects a change to its target's size.
 
 I use this hook most often when working with HTML canvas, which allows me to dynamically and performantly resize the canvas whenever its container is resized.
 
@@ -61,3 +66,13 @@ export default function ObserveElement() {
 ```
 
 <ROTest />
+
+## Caveats + To-dos
+
+- The `ResizeObserver` API is designed to accept multiple targets. As such, it's demonstrably more performant to instantiate a single observer with multiple targets rather than using a `ResizeObserver` per element. Currently, the hook only accepts a single target, as that is almost exclusively how I use it, but it would be wise to refactor it so that it can accept multiple targets.
+
+---
+
+###### References
+
+https://github.com/jaredLunde/react-hook/blob/master/packages/resize-observer/src/index.tsx
