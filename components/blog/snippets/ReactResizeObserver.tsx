@@ -11,6 +11,8 @@ const ROTest = () => {
   const { width, height } = useResizeObserver(observed);
 
   useEffect(() => {
+    console.log(container.current);
+
     if (container.current) {
       const width = container.current.offsetWidth / 2;
       const height = container.current.offsetHeight / 2;
