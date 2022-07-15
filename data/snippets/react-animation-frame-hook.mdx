@@ -1,0 +1,48 @@
+---
+title: "Request Animation Frame Hook"
+summary: "Create looping animations in React."
+framework: "React"
+---
+
+A react hook for levaraging the Request Animation Frame API to create looping animations, complete with the ability to control playback.
+
+```ts title="useAnimationFrame.ts"
+import { useRef, useLayoutEffect } from "react";
+// The hook accepts three paramters: a callback function that specifies the animation,
+// a boolean that dictates if the animation should autoplay, and an optional object
+// for any additional dependencies that should control the animation
+export default function useAnimationFrame(
+  callback: () => void,
+  shouldAnimate: boolean = true,
+  deps = {}
+) => {
+  // creating a stable reference so that we can request and cancle the animation frame
+  const frame = useRef<number>(0);
+  // the looping animation—fires the callback parameter at ~60fps
+  const animate = () => {
+    callback();
+    frame.current = requestAnimationFrame(animate);
+  };
+  // create a side effect that will fire **before** the browser is painted
+  useLayoutEffect(() => {
+    // controls whether the animation should
+    if (shouldAnimate) {
+      frame.current = requestAnimationFrame(animate);
+    }
+    // cancle animation frame when the component is unmounted/re-rendered
+    return () => {
+      frame.current && cancelAnimationFrame(frame.current);
+    };
+  }, [shouldAnimate, { ...deps }]);
+};
+```
+
+## In Use
+
+This hooks requires a react `RefObject` and initiates a resize observer on the provided `HTMLEelement` when its component is mounted, and returns an updated width and height for that element whenever the observer is fired. The ResizeObserver API is widely supported (in 94.13% of browsers at the time of writing), so to keep the code lean I am not including a polyfill.
+
+Additionally, the hook also accepts an optional callback function that, if provided, fires anytime the ResizeObserver detects a change to its target’s size.
+
+I use this hook most often when working with HTML canvas, which allows me to dynamically and performantly resize the canvas whenever its container is resized.
+
+<ReactRAF />

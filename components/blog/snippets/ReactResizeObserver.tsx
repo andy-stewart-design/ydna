@@ -1,7 +1,7 @@
 import useResizeObserver from "lib/useResizeObserver";
 import { useEffect, useRef, useState } from "react";
 
-const ROTest = () => {
+const ReactResizeObserver = () => {
   const observed = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
 
@@ -11,8 +11,6 @@ const ROTest = () => {
   const { width, height } = useResizeObserver(observed);
 
   useEffect(() => {
-    console.log(container.current);
-
     if (container.current) {
       const width = container.current.offsetWidth / 2;
       const height = container.current.offsetHeight / 2;
@@ -36,7 +34,7 @@ const ROTest = () => {
       ref={container}
       className="bg-gradient-to-br from-pink-600 to-blue-600 lg:-mx-12 my-10"
     >
-      <div className="flex justify-center items-center w-full aspect-video min-h-[360px]">
+      <div className="flex justify-center items-center w-full min-h-[360px] lg:min-h-[480px]">
         <div
           ref={observed}
           className="flex justify-center items-center font-mono text-lg text-gray-800 bg-white rounded-2xl shadow-xl"
@@ -85,4 +83,4 @@ const ROTest = () => {
   );
 };
 
-export default ROTest;
+export default ReactResizeObserver;

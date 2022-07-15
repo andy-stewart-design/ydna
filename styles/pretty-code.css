@@ -11,7 +11,7 @@ div[data-rehype-pretty-code-fragment] {
 div[data-rehype-pretty-code-fragment] pre {
   overflow-x: auto;
   color-scheme: dark;
-  @apply py-2 text-sm leading-[1.875];
+  @apply pt-2 pb-3 text-sm leading-[1.875];
 }
 
 div[data-rehype-pretty-code-fragment] code {

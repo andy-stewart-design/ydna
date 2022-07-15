@@ -1,14 +1,14 @@
 ---
 title: "Resize Observer Hook"
-summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+summary: "Performantly track the dimensions of an element in React"
 framework: "React"
 ---
 
 A simple react hook for instantiating an observer to detect when an element is resized and reading its current height and width.
 
 ```ts title="useResizeObserver.ts"
-import { RefObject, useEffect, useRef, useState } from "react";
-
+import { useEffect, useRef, useState, RefObject } from "react";
+// type definitions
 export interface ContentRect {
   width: number;
   height: number;
@@ -18,26 +18,33 @@ export default function useResizeObserver(
   target: RefObject<HTMLElement>,
   callback?: Function | null
 ) {
+  // create a persistent store of the current dimensions of the target
   const [contentRect, setContentRect] = useState<ContentRect>({
     width: 0,
     height: 0,
   });
+  // create a stable reference for the observer so we can disconnect it later
   const observer = useRef<ResizeObserver | null>(null);
-
+  // run a side effect once when the component is mounted
   useEffect(() => {
     if (target.current) {
+      // set up the resize observer
       observer.current = new ResizeObserver((entries) => {
+        // when the target changes size, commit its updated deminsions to state
         const { width, height } = entries[0].contentRect;
         setContentRect({ width, height });
+        // if a callback function has been provided, run the function
+        if (callback) callback();
       });
+      // instruct the observer to watch the target element
       observer.current.observe(target.current);
     }
-
+    // remove the observer when the component unmounts (for performance)
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [target]);
-
+  }, []);
+  // pass the target’s updated dimensions back to the component calling the hook
   return contentRect;
 }
 ```
@@ -46,7 +53,7 @@ export default function useResizeObserver(
 
 This hooks requires a react `RefObject` and initiates a resize observer on the provided `HTMLEelement` when its component is mounted, and returns an updated width and height for that element whenever the observer is fired. The ResizeObserver API is widely supported (in 94.13% of browsers at the time of writing), so to keep the code lean I am not including a polyfill.
 
-Additionally, the hook also accepts an optional callback function that, if provided, fires anytime the ResizeObserver detects a change to its target's size.
+Additionally, the hook also accepts an optional callback function that, if provided, fires anytime the ResizeObserver detects a change to its target’s size.
 
 I use this hook most often when working with HTML canvas, which allows me to dynamically and performantly resize the canvas whenever its container is resized.
 
@@ -65,14 +72,15 @@ export default function ObserveElement() {
 }
 ```
 
-<ROTest />
+<ReactResizeObserver />
 
 ## Caveats + To-dos
 
-- The `ResizeObserver` API is designed to accept multiple targets. As such, it's demonstrably more performant to instantiate a single observer with multiple targets rather than using a `ResizeObserver` per element. Currently, the hook only accepts a single target, as that is almost exclusively how I use it, but it would be wise to refactor it so that it can accept multiple targets.
+- The `ResizeObserver` API is designed to accept multiple targets. As such, it’s demonstrably more performant to instantiate a single observer with multiple targets rather than using a separate `ResizeObserver` per element. Currently, the hook only accepts a single target, as that is almost exclusively how I use it. But to make it more generalizable, it would be nice to refactor it so that it can accept multiple targets.
+- At the time of writing, I’m still relatively new to React, so I’m not 100% confident that the we need to useState in this instance. It’s possible that a local variable would be sufficient. I’ll update this post once I’ve developed a more definitive perspective.
 
 ---
 
 ###### References
 
-https://github.com/jaredLunde/react-hook/blob/master/packages/resize-observer/src/index.tsx
+- [Resize Observer (MDN) ↗](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)

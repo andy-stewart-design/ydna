@@ -1,11 +1,11 @@
-import { MutableRefObject, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 const useAnimationFrame = (
   callback: () => void,
   shouldAnimate: boolean = true,
-  props = {}
+  deps = {}
 ) => {
-  const frame: MutableRefObject<number> = useRef(0);
+  const frame = useRef<number>(0);
 
   const anim = () => {
     callback();
@@ -20,7 +20,7 @@ const useAnimationFrame = (
     return () => {
       frame.current && cancelAnimationFrame(frame.current);
     };
-  }, [shouldAnimate, { ...props }]);
+  }, [shouldAnimate, { ...deps }]);
 };
 
 export default useAnimationFrame;

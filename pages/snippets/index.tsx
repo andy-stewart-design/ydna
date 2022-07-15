@@ -29,8 +29,9 @@ const SnippetIndex = ({
           <div className="flex gap-x-2 mt-2">
             {snippets.map((snippet) => (
               <Link href={`/snippets/${snippet.slug}`} key={snippet.slug}>
-                <a className="flex flex-col items-start gap-y-3 w-full mt-6 mb-8 pt-4 pb-5 px-4 border border-black/10 dark:border-white/20 rounded">
+                <a className="flex flex-col items-start gap-y-3 w-full mt-6 mb-8 pt-4 pb-5 px-4 border border-black/10 dark:border-white/20 rounded hover:border-black/70 dark:hover:border-white/80 transition-colors duration-500 ease-out">
                   <h3 className="font-bold text-2xl">{snippet.title}</h3>
+                  <p>{snippet.summary}</p>
                   <span className="font-medium text-sm px-3 py-0.5 bg-white/10 rounded-full">
                     {snippet.framework}
                   </span>
