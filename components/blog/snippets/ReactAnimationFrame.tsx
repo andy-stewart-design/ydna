@@ -1,6 +1,11 @@
 import { useState } from "react";
 import useAnimationFrame from "lib/useAnimationFrame";
 import { ClientOnly } from "components/global/ClientOnly";
+import Play from "components/svg/Play";
+import Pause from "components/svg/Pause";
+import Refresh from "components/svg/Refresh";
+import Plus from "components/svg/Plus";
+import Minus from "components/svg/Minus";
 
 const Counter = () => {
   const [count, setCount] = useState<number>(0);
@@ -19,33 +24,38 @@ const Counter = () => {
         <div className="flex items-center gap-x-4">
           <button
             onClick={handlePlayback}
-            className="font-semibold text-gray-800 bg-gray-100 min-w-[80px] py-2 px-4 rounded shadow"
+            className="font-semibold text-white p-3"
           >
-            {isAnimating ? "Pause" : "Play"}
+            <div className="w-6">{isAnimating ? <Pause /> : <Play />}</div>
           </button>
           <button
             onClick={handleReset}
-            className="font-semibold text-gray-800 bg-gray-100 min-w-[80px] py-2 px-4 rounded shadow"
+            className="font-semibold text-white p-3"
           >
-            Reset
+            <div className="w-6">
+              <Refresh />
+            </div>
           </button>
         </div>
-        <div className="flex items-center gap-x-4">
-          <p className="text-center text-white m-0 min-w-[18px]">Speed</p>
+        <div className="flex items-center gap-x-1">
           <button
-            className="font-semibold text-gray-800 bg-gray-100 py-2 px-4 rounded shadow"
+            className="font-semibold text-white p-3"
             onClick={() => setInc((i) => Math.max(0.01, i - 0.01))}
           >
-            -
+            <div className="w-6">
+              <Minus />
+            </div>
           </button>
-          <p className="text-center text-white m-0 min-w-[18px]">
+          <span className="font-semibold text-lg tabular-nums flex justify-center items-center text-center text-white min-w-[18px] w-10 h-10 bg-black/20 rounded">
             {Math.round(inc * 100)}
-          </p>
+          </span>
           <button
-            className="font-semibold text-gray-800 bg-gray-100 py-2 px-4 rounded shadow"
+            className="font-semibold text-white p-3"
             onClick={() => setInc((i) => Math.min(0.1, i + 0.01))}
           >
-            +
+            <div className="w-6">
+              <Plus />
+            </div>
           </button>
         </div>
       </div>

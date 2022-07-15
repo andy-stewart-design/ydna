@@ -42,7 +42,7 @@ function CustomCanvas() {
   };
 
   // Increment time variable
-  useAnimationFrame(progressTime, isAnimating, { inc });
+  useAnimationFrame(progressTime, isAnimating);
 
   // initialize resize observer for canvas container
   let size: ContentRect = useResizeObserver(container);
