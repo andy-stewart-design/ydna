@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useAnimationFrame from "lib/useAnimationFrame";
 import { ClientOnly } from "components/global/ClientOnly";
-import Link from "next/link";
 
 const Counter = () => {
   const [count, setCount] = useState<number>(0);
@@ -32,9 +31,7 @@ const Counter = () => {
           </button>
         </div>
         <div className="flex items-center gap-x-4">
-          <p className="font-semibold text-center text-white m-0 min-w-[18px]">
-            Speed
-          </p>
+          <p className="text-center text-white m-0 min-w-[18px]">Speed</p>
           <button
             className="font-semibold text-gray-800 bg-gray-100 py-2 px-4 rounded shadow"
             onClick={() => setInc((i) => Math.max(0.01, i - 0.01))}
@@ -72,13 +69,19 @@ const Counter = () => {
           ></div>
         </div>
         <div className="flex justify-center items-center w-40 h-40">
-          <h1 className="font-mono text-4xl">{Math.floor(count)}</h1>
+          <h1 className="font-mono text-4xl tabular-nums">
+            {Math.floor(count)}
+          </h1>
         </div>
       </div>
       <div className="absolute bottom-0 left-0 py-3">
-        <Link href="/">
-          <a className="text-sm px-4">Source Code</a>
-        </Link>
+        <a
+          href="https://github.com/andy-stewart-design/ydna/blob/main/components/blog/snippets/ReactAnimationFrame.tsx"
+          target="_blank"
+          className="text-sm px-4"
+        >
+          Source Code
+        </a>
       </div>
     </div>
   );
