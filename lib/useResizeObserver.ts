@@ -28,7 +28,7 @@ export default function useResizeObserver(
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [target]);
+  }, [target, callback]);
 
   return contentRect;
 }

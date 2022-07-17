@@ -88,6 +88,7 @@ const Counter = () => {
         <a
           href="https://github.com/andy-stewart-design/ydna/blob/main/components/blog/snippets/ReactAnimationFrame.tsx"
           target="_blank"
+          rel="noopener noreferrer"
           className="text-sm px-4"
         >
           Source Code

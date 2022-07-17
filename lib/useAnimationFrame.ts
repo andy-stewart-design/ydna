@@ -2,17 +2,16 @@ import { useLayoutEffect, useRef } from "react";
 
 const useAnimationFrame = (
   callback: () => void,
-  shouldAnimate: boolean = true,
-  deps = {}
+  shouldAnimate: boolean = true
 ) => {
   const frame = useRef<number>(0);
 
-  const anim = () => {
-    callback();
-    frame.current = requestAnimationFrame(anim);
-  };
-
   useLayoutEffect(() => {
+    const anim = () => {
+      callback();
+      frame.current = requestAnimationFrame(anim);
+    };
+
     if (shouldAnimate) {
       frame.current = requestAnimationFrame(anim);
     }
@@ -20,7 +19,7 @@ const useAnimationFrame = (
     return () => {
       frame.current && cancelAnimationFrame(frame.current);
     };
-  }, [shouldAnimate, { ...deps }]);
+  }, [shouldAnimate, callback]);
 };
 
 export default useAnimationFrame;
