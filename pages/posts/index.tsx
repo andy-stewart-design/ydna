@@ -1,12 +1,17 @@
-import { type GetStaticProps, type InferGetStaticPropsType } from "next";
+import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import { allPosts, type Post } from "contentlayer/generated";
-import BlogCard from "components/BlogCard";
+import { allPosts, Post } from "contentlayer/generated";
+import { formatPostPreview, sortPostsByDate } from "lib/contentlayer";
+import BlogCard from "components/blog/posts/BlogCard";
 
-export const getStaticProps: GetStaticProps<{
-  posts: Post[];
-}> = () => {
-  return { props: { posts: allPosts } };
+export const getStaticProps = () => {
+  const allPostsPreview = allPosts.map((post) => {
+    return formatPostPreview(post);
+  });
+
+  const allPostsSorted = sortPostsByDate(allPostsPreview);
+
+  return { props: { posts: allPostsSorted } };
 };
 
 const PostIndex = ({
@@ -23,10 +28,10 @@ const PostIndex = ({
       </Head>
 
       <main className="pt-24">
-        <div className="max-w-[720px] mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h1 className="font-bold text-5xl mb-6">All Posts</h1>
           {posts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
+            <BlogCard key={post.slug} post={post as Post} />
           ))}
         </div>
       </main>

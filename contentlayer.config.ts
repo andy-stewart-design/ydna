@@ -4,6 +4,14 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { HEADING_LINK_ANCHOR } from "./lib/constants";
 
+export const Img = defineDocumentType(() => ({
+  name: "Img",
+  fields: {
+    src: { type: "string", required: true },
+    alt: { type: "string", required: true },
+  },
+}));
+
 export const Post = defineDocumentType(() => ({
   name: "Post",
   contentType: "mdx",

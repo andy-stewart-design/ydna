@@ -11,6 +11,13 @@ export default function Document() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="/fonts/AeonikFono-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </Head>
       <body className="bg-gray-100 text-gray-800 dark:bg-black dark:text-gray-100">
         <Main />
