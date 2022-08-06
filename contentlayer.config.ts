@@ -55,6 +55,7 @@ export const Snippet = defineDocumentType(() => ({
     title: { type: "string", required: true },
     summary: { type: "string", required: true },
     framework: { type: "enum", options: ["React", "Svelte"], required: true },
+    image: { type: "string", required: true },
   },
 }));
 
@@ -82,7 +83,7 @@ const rehypePrettyCodeOptions: Partial<Options> = {
 };
 
 export default makeSource({
-  contentDirPath: "data",
+  contentDirPath: "content",
   documentTypes: [Post, Snippet],
   mdx: {
     esbuildOptions(options) {

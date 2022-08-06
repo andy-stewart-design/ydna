@@ -2,7 +2,7 @@ import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { allPosts, Post } from "contentlayer/generated";
 import { formatPostPreview, sortPostsByDate } from "lib/contentlayer";
-import BlogCard from "components/blog/posts/BlogCard";
+import PostCard from "components/content/posts/PostCard";
 
 export const getStaticProps = () => {
   const allPostsPreview = allPosts.map((post) => {
@@ -31,7 +31,7 @@ const PostIndex = ({
         <div className="max-w-4xl mx-auto">
           <h1 className="font-bold text-5xl mb-6">All Posts</h1>
           {posts.map((post) => (
-            <BlogCard key={post.slug} post={post as Post} />
+            <PostCard key={post.slug} post={post as Post} />
           ))}
         </div>
       </main>

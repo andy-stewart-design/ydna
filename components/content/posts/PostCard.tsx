@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type Post } from "contentlayer/generated";
 
-const BlogCard = ({ post }: { post: Post }) => {
+const PostCard = ({ post }: { post: Post }) => {
   return (
     <Link href={`/posts/${post.slug}`}>
       <a className="flex flex-row mt-6 mb-8 border border-black/10 dark:border-white/10 rounded overflow-hidden hover:dark:border-white/30 transition-colors duration-300">
@@ -37,4 +37,4 @@ const BlogCard = ({ post }: { post: Post }) => {
   );
 };
 
-export default BlogCard;
+export default PostCard;
