@@ -15,7 +15,7 @@ const Button = ({ focusable = true, trigger = 0 }: Props) => {
         [
           ref.current,
           { x: "200%" },
-          { duration: 0.2, easing: [0.33, 1, 0.68, 1] },
+          { duration: 0.2, easing: [0.83, 0, 0.17, 1] },
         ],
         [ref.current, { x: "-200%" }, { duration: 0.0001 }],
         [
@@ -28,7 +28,7 @@ const Button = ({ focusable = true, trigger = 0 }: Props) => {
 
   return (
     <button
-      className="absolute left-6 bottom-5 p-2 border border-black/10 dark:border-white/20 rounded-full transition-colors duration-500 ease-out group-hover:border-black/50 dark:group-hover:border-white/50 overflow-hidden"
+      className="p-2 border border-black/10 dark:border-white/20 rounded-full transition-colors duration-500 ease-out group-hover:border-black/50 dark:group-hover:border-white/50 overflow-hidden"
       tabIndex={focusable ? 0 : -1}
     >
       <div ref={ref}>

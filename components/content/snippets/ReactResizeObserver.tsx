@@ -37,7 +37,7 @@ const ReactResizeObserver = () => {
       <div className="flex justify-center items-center w-full min-h-[360px] lg:min-h-[480px]">
         <div
           ref={observed}
-          className="flex justify-center items-center font-mono text-lg text-gray-800 bg-white rounded-2xl shadow-xl"
+          className="flex justify-center items-center font-mono tabular-nums text-lg text-blue-600 bg-white rounded-2xl shadow-xl"
           style={{ width: sizeX.value, height: sizeY.value }}
         >
           {Math.round(width)} x {Math.round(height)}
