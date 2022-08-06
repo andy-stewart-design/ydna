@@ -10,18 +10,18 @@ const Button = ({ focusable = true, trigger = 0 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current)
+    if (ref.current && trigger > 0)
       timeline([
         [
           ref.current,
           { x: "200%" },
-          { duration: 0.25, easing: [0.33, 1, 0.68, 1] },
+          { duration: 0.2, easing: [0.33, 1, 0.68, 1] },
         ],
         [ref.current, { x: "-200%" }, { duration: 0.0001 }],
         [
           ref.current,
           { x: "0%" },
-          { duration: 0.25, easing: [0.33, 1, 0.68, 1] },
+          { duration: 0.2, easing: [0.33, 1, 0.68, 1] },
         ],
       ]);
   }, [trigger]);

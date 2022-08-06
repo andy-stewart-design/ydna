@@ -1,6 +1,6 @@
 import Link from "next/link";
 import NextImage from "next/future/image";
-import Button from "components/global/Button";
+import Button from "components/content/shared/CardButton";
 import { type Snippet } from "contentlayer/generated";
 import { useState } from "react";
 
@@ -14,7 +14,7 @@ const SnippetCard = ({ data }: Props) => {
   return (
     <div onMouseEnter={increment}>
       <Link href={`/snippets/${data.slug}`} key={data.slug}>
-        <a className="group relative flex flex-col items-start w-full mt-6 mb-8 bg-white bg-opacity-40 dark:bg-gray-800 dark:bg-opacity-20 border border-black/10 dark:border-white/20 rounded transition-colors duration-500 ease-out hover:bg-opacity-80 dark:hover:bg-opacity-50 hover:border-black/50 dark:hover:border-white/50 overflow-hidden">
+        <a className="group relative flex flex-col items-start w-full h-full bg-white bg-opacity-40 dark:bg-gray-800 dark:bg-opacity-20 border border-black/10 dark:border-white/20 rounded transition-colors duration-500 ease-out hover:bg-opacity-80 dark:hover:bg-opacity-50 hover:border-black/50 dark:hover:border-white/50 overflow-hidden">
           <div className="relative w-full bg-black">
             <NextImage
               src={data.image}

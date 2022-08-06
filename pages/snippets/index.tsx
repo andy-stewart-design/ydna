@@ -27,7 +27,7 @@ const SnippetIndex = ({
         <Wrapper>
           <div className="mx-auto">
             <h1 className="font-bold text-5xl mb-6">All Snippets</h1>
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-x-4 mt-2">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 auto-rows-fr gap-x-4 mt-2">
               {snippets.map((snippet) => (
                 <SnippetCard data={snippet} key={snippet.title}></SnippetCard>
               ))}
