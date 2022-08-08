@@ -1,13 +1,18 @@
 import { type GetStaticProps, type InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { allSnippets, type Snippet } from "contentlayer/generated";
+import { formatSnippetPreview, sortContentByDate } from "lib/contentlayer";
 import Wrapper from "components/global/Wrapper";
 import SnippetCard from "components/content/snippets/SnippetCard";
 
-export const getStaticProps: GetStaticProps<{
-  snippets: Snippet[];
-}> = () => {
-  return { props: { snippets: allSnippets } };
+export const getStaticProps = () => {
+  const allSnippetsPreview = allSnippets.map((snippet) => {
+    return formatSnippetPreview(snippet);
+  });
+
+  const allSnippetsSorted = sortContentByDate(allSnippetsPreview);
+
+  return { props: { snippets: allSnippetsSorted } };
 };
 
 const SnippetIndex = ({
@@ -26,10 +31,13 @@ const SnippetIndex = ({
       <main className="pt-40">
         <Wrapper>
           <>
-            <h1 className="font-bold text-5xl mb-6">All Snippets</h1>
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 auto-rows-fr gap-x-4 mt-2">
+            <h1 className="font-bold text-5xl mb-8">All Snippets</h1>
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 auto-rows-fr gap-y-5 gap-x-4 mt-2">
               {snippets.map((snippet) => (
-                <SnippetCard data={snippet} key={snippet.title}></SnippetCard>
+                <SnippetCard
+                  data={snippet as Snippet}
+                  key={snippet.title}
+                ></SnippetCard>
               ))}
             </div>
           </>

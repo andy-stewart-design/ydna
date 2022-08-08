@@ -32,12 +32,12 @@ const ReactResizeObserver = () => {
   return (
     <div
       ref={container}
-      className="bg-gradient-to-br from-pink-600 to-blue-600 lg:-mx-12 my-10"
+      className="bg-gradient-to-tl from-pink-500 via-red-500 to-yellow-500 lg:-mx-12 my-10"
     >
       <div className="flex justify-center items-center w-full min-h-[360px] lg:min-h-[480px]">
         <div
           ref={observed}
-          className="flex justify-center items-center font-mono tabular-nums text-lg text-blue-600 bg-white rounded-2xl shadow-xl"
+          className="flex justify-center items-center font-mono tabular-nums text-lg text-gray-600 bg-white rounded-2xl shadow-xl"
           style={{ width: sizeX.value, height: sizeY.value }}
         >
           {Math.round(width)} x {Math.round(height)}

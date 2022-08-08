@@ -1,10 +1,11 @@
 import { pick } from "contentlayer/client";
-import { Post } from "contentlayer/generated";
+import { Post, Snippet } from "contentlayer/generated";
 
 export type PostPreview = ReturnType<typeof formatPostPreview>;
+export type SnippetPreview = ReturnType<typeof formatSnippetPreview>;
 
 export const formatPostPreview = (post: Post) => {
-  const partialPost = pick(post, [
+  const postPreview = pick(post, [
     "title",
     "date",
     "image",
@@ -14,13 +15,31 @@ export const formatPostPreview = (post: Post) => {
   ]);
 
   return {
-    ...partialPost,
-    tags: partialPost.tags || [],
-    image: partialPost.image || null,
+    ...postPreview,
+    tags: postPreview.tags || [],
+    image: postPreview.image || null,
   };
 };
 
-export function sortPostsByDate(posts: Post[] | PostPreview[]) {
+export const formatSnippetPreview = (snippet: Snippet) => {
+  const snippetPreview = pick(snippet, [
+    "title",
+    "date",
+    "image",
+    "summary",
+    "slug",
+    "framework",
+  ]);
+
+  return {
+    ...snippetPreview,
+    // image: snippetPreview.image || null,
+  };
+};
+
+export function sortContentByDate(
+  posts: Post[] | PostPreview[] | Snippet[] | SnippetPreview[]
+) {
   return posts.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );

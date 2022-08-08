@@ -1,0 +1,59 @@
+---
+title: "Split Text"
+summary: "A vanilla JS lib for splitting text for animation"
+image: "/img/content/snippets/splitText.jpeg"
+date: "08.14.22"
+framework: "Javascript"
+---
+
+A vanilla javascript function that will split an HTML text element into individual words and letters that can then be animated using your library of choice.
+
+```ts title="splitText.ts"
+function deconstructText(node: , elementType: string = "span") {
+  // bail if there is no text content to manipulate
+  if (!node.textContent) return;
+  // create a return array that will hold the split letters
+  const letterArray: HTMLElement[] = [];
+  const wrapper: HTMLElement = document.createElement(elementType);
+  const words: string[] = node.textContent.split(" ");
+
+  words.forEach((word, index) => {
+    const wordNode: HTMLElement = document.createElement(elementType);
+    wordNode.classList.add("word");
+    const letters: string[] = word.split("");
+
+    letters.forEach((letter) => {
+      const letterNode: HTMLElement = document.createElement(elementType);
+      letterNode.classList.add("char");
+      letterNode.textContent = letter;
+      letterArray.push(letterNode);
+      wordNode.appendChild(letterNode);
+    });
+
+    wrapper.appendChild(wordNode);
+
+    if (index < words.length - 1) {
+      const space = document.createElement(elementType);
+      space.classList.add("space");
+      space.textContent = " ";
+      wrapper.appendChild(space);
+    }
+  });
+
+  node.classList.add("split-text");
+  node.textContent = "";
+  node.insertAdjacentHTML("afterbegin", wrapper.innerHTML);
+  return letterArray;
+}
+```
+
+```ts title="utils/generative.ts"
+// calculate the distance between two points
+function distance(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+}
+// re-map a number from one range to another
+function map(value, min1, max1, min2, max2) {
+  return min2 + ((max2 - min2) * (value - min1)) / (max1 - min1);
+}
+```

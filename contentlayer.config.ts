@@ -54,8 +54,13 @@ export const Snippet = defineDocumentType(() => ({
   fields: {
     title: { type: "string", required: true },
     summary: { type: "string", required: true },
-    framework: { type: "enum", options: ["React", "Svelte"], required: true },
+    framework: {
+      type: "enum",
+      options: ["React", "Svelte", "Javascript"],
+      required: true,
+    },
     image: { type: "string", required: true },
+    date: { type: "string", required: true },
   },
 }));
 

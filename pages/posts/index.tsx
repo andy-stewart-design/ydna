@@ -1,7 +1,7 @@
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { allPosts, Post } from "contentlayer/generated";
-import { formatPostPreview, sortPostsByDate } from "lib/contentlayer";
+import { formatPostPreview, sortContentByDate } from "lib/contentlayer";
 import PostCard from "components/content/posts/PostCard";
 
 export const getStaticProps = () => {
@@ -9,7 +9,7 @@ export const getStaticProps = () => {
     return formatPostPreview(post);
   });
 
-  const allPostsSorted = sortPostsByDate(allPostsPreview);
+  const allPostsSorted = sortContentByDate(allPostsPreview);
 
   return { props: { posts: allPostsSorted } };
 };
