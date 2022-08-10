@@ -1,9 +1,76 @@
 ---
 title: "Copy to Clipboard"
-summary: "A Svelte action for accessing the native Clipboard API"
-image: "/img/content/snippets/useRO.jpeg"
+summary: "A Svelte action for implementing the native Clipboard API"
+image: "/img/content/snippets/useClipboard.jpg"
 date: "08.10.22"
 framework: "Svelte"
 ---
 
-A simple react hook for initializing an observer to detect when an element is resized and reading its current height and width.
+A [Svelte Action](https://blog.logrocket.com/svelte-actions-introduction/) that allows you to write a custom string to a user's clipboard when a target element is clicked. It also dispatches a custom event so that side effects (e.g., toggling a toast notification) can be run when the click event listener is fired.
+
+```ts title="useClipboard.ts"
+import type { Action } from "svelte/types/runtime/action";
+// pass the target node and the string to be copied to the action
+export const clipboard: Action<HTMLElement, string> = (node, text) => {
+  const click = async () => {
+    try {
+      // amazingly, it only takes one line to accomplish out main goal!
+      await navigator.clipboard.writeText(text);
+      // create and dispatch a custom event to enable side effects to be run
+      const useClipboard = new CustomEvent("useclipboard", {
+        detail: { text },
+      });
+      node.dispatchEvent(useClipboard);
+    } catch (err) {
+      // Let me know if something broke
+      console.log("error:", err);
+    }
+  };
+  // set up a click event on the target node
+  node.addEventListener("click", click, true);
+  // actions return an object that allows us to update params and do clean up
+  return {
+    // runs if the parameters passed into the function change
+    update: (t: string) => (text = t),
+    // runs when the target element is removed from the DOM
+    destroy: () => node.removeEventListener("click", click, true),
+  };
+};
+```
+
+## In Use
+
+I developed this feature while exploring how to build an interacive repository for an SVG icon set. I wanted a simple way to display a bunch of cards on a page that, when clicked, would copy the code for a specific icon to the user's clipboard.
+
+For me, a custom action seemed to be the most effective of the various ways that you could implement this in Svelte. Actions are an elegant, if underused, way of encapsulating reusable logic in Svelte. They are essentially element-level lifecycle hooks, which allow you to easily attach a function to an element — or in my case, to a hundred elements — that will run when that element is added to the DOM.
+
+Simply attach the action to an element with the `use:` directive and pass in a string that you want to write to the clipboard as a param. The action will automatically initialize a click event listener when the element is mounted, and remove the event listener before it is unmounted. Optionally, you can trigger additional functions when the event listener is fired by using the `on:useClipboard` directive.
+
+```svelte title="IconCard.svelte"
+<script lang="ts">
+  import { clipboard } from '$lib/actions/useClipboard';
+  import { toggleToast } from '$lib/stores/toast'
+  import icon from '$lib/data/icon.json'
+</script>
+
+<button
+  class="grid group relative"
+  type="button"
+  use:clipboard={icon.path}
+  on:useclipboard={toggleToast}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    xml:space="preserve"
+    ><path d={icon.path} />
+  </svg>
+</button>
+};
+```
+
+<Iframe src="https://svelte-sandbox-flax.vercel.app/demos/use-clipboard" />
+
+## Caveats + To-dos
+
+- In general, if you use Typescript and you want to write a custom action in Svelte, your editor is going to yell at you when try to use it if you don't first extend Svelte's JSX typings. Create a file named `additional-svelte-jsx.d.ts` and follow the format described [in the docs](https://github.com/sveltejs/language-tools/blob/master/docs/preprocessors/typescript.md#im-using-an-attributeevent-on-a-dom-element-and-it-throws-a-type-error). You can see the implementation for the `useClipboard` action [here](https://github.com/andy-stewart-design/svelte-sandbox/blob/main/src/lib/types/additional-svelte-jsx.d.ts).
