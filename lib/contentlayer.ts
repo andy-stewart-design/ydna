@@ -26,6 +26,7 @@ export const formatSnippetPreview = (snippet: Snippet) => {
     "title",
     "date",
     "image",
+    "alt",
     "summary",
     "slug",
     "framework",

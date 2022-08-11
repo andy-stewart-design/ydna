@@ -24,7 +24,7 @@ const SnippetCard = ({ data }: Props) => {
               height="1080"
               sizes="40vw"
               quality="60"
-              alt="foo"
+              alt={data.alt}
             ></NextImage>
             <div className="absolute top-4 left-4 p-2 bg-black/60 rounded-full backdrop-blur-md">
               <div className="w-6">

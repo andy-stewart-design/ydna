@@ -60,6 +60,7 @@ export const Snippet = defineDocumentType(() => ({
       required: true,
     },
     image: { type: "string", required: true },
+    alt: { type: "string", required: true },
     date: { type: "string", required: true },
   },
 }));
