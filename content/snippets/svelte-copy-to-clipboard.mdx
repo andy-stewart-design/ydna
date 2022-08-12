@@ -41,9 +41,9 @@ export const clipboard: Action<HTMLElement, string> = (node, text) => {
 
 ## In Use
 
-I developed this feature while exploring how to build an interacive repository for an SVG icon set. I wanted a simple way to display a bunch of cards on a page that, when clicked, would copy the code for a specific icon to the user's clipboard.
+I developed this feature while exploring how to build an interactive SVG icon repository. I wanted a simple way to display a set of cards on a page that, when clicked, would copy the code for a specific icon to the user's clipboard.
 
-For me, a custom action seemed to be the most effective of the various ways that you could implement this in Svelte. Actions are an elegant, if underused, way of encapsulating reusable logic in Svelte. They are essentially element-level lifecycle hooks, which allow you to easily attach a function to an element — or in my case, to a hundred elements — that will run when that element is added to the DOM.
+For me, a custom action seemed to be the most effective of the various ways that you could implement this in Svelte. Actions are an elegant, if underused, way of encapsulating reusable logic in Svelte. They are essentially element-level lifecycle hooks, which allow you to easily attach a function to an element — or in my case, to dozens of elements — that will run when that element is added to the DOM.
 
 Simply attach the action to an element with the `use:` directive and pass in a string that you want to write to the clipboard as a param. The action will automatically initialize a click event listener when the element is mounted, and remove the event listener before it is unmounted. Optionally, you can trigger additional functions when the event listener is fired by using the `on:useClipboard` directive.
 
@@ -74,4 +74,4 @@ Simply attach the action to an element with the `use:` directive and pass in a s
 
 ## Caveats + To-dos
 
-- In general, if you use Typescript and you want to write a custom action in Svelte, your editor is going to yell at you when try to use it if you don't first extend Svelte's JSX typings. Create a file named `additional-svelte-jsx.d.ts` and follow the format described [in the docs](https://github.com/sveltejs/language-tools/blob/master/docs/preprocessors/typescript.md#im-using-an-attributeevent-on-a-dom-element-and-it-throws-a-type-error). You can see the implementation for the `useClipboard` action [here](https://github.com/andy-stewart-design/svelte-sandbox/blob/main/src/lib/types/additional-svelte-jsx.d.ts).
+- In general, if you use Typescript and you want to write a custom action in Svelte, your editor is going to yell at you when try to use it if you don't first extend Svelte's JSX typings. Create a file named `additional-svelte-jsx.d.ts` somewhere in your project and follow the format described [in the docs](https://github.com/sveltejs/language-tools/blob/master/docs/preprocessors/typescript.md#im-using-an-attributeevent-on-a-dom-element-and-it-throws-a-type-error). You can see the implementation for my `useClipboard` action [here](https://github.com/andy-stewart-design/svelte-sandbox/blob/main/src/lib/types/additional-svelte-jsx.d.ts).
