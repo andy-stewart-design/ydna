@@ -14,6 +14,7 @@ const PostCard = ({ post }: { post: Post }) => {
               height={800}
               layout="fill"
               objectFit="cover"
+              alt="FPO"
             ></Image>
           </div>
         )}

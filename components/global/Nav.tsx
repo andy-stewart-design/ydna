@@ -36,7 +36,9 @@ export default function Nav() {
               <a className="">About</a>
             </Link>
           </div>
-          <ThemeSwitch />
+          <div className="w-10 h-10">
+            <ThemeSwitch />
+          </div>
         </div>
       </Wrapper>
     </nav>
@@ -44,7 +46,7 @@ export default function Nav() {
 }
 
 const ThemeSwitch = () => {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   if (!useHydrated()) return null;
 
